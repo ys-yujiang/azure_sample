@@ -67,6 +67,18 @@ resource "azurerm_network_interface" "ni" {
   }
 }
 
+resource "azurerm_network_interface" "ni" {
+  name                = "${var.prefix}-nic"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  ip_configuration {
+    name                          = "testconfiguration1"
+    subnet_id                     = azurerm_subnet.internal.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
 resource "azurerm_virtual_machine" "main" {
   name                  = "${var.prefix}-vm"
   location              = azurerm_resource_group.rg.location
